@@ -23,10 +23,7 @@ public class KeywordApiController {
     public ResponseEntity<KeywordResponse> createKeyword(
             @RequestBody CreateKeywordRequest createKeywordRequest
     ) {
-        String name = createKeywordRequest.getName();
-        Long userId = createKeywordRequest.getUserId();
-
-        KeywordResponse keywordResponse = keywordService.createKeyword(name, userId);
+        KeywordResponse keywordResponse = keywordService.createKeyword(createKeywordRequest);
 
         return new ResponseEntity<>(keywordResponse, HttpStatus.CREATED);
     }

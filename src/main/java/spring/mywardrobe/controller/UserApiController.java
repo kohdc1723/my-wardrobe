@@ -17,7 +17,9 @@ public class UserApiController {
 
     // POST - /api/users
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserCreateRequest userCreateRequest) {
+    public ResponseEntity<UserResponse> createUser(
+            @RequestBody UserCreateRequest userCreateRequest
+    ) {
         UserResponse userResponse = userService.createUser(userCreateRequest);
 
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
@@ -25,7 +27,9 @@ public class UserApiController {
 
     // GET - /api/users/{id}
     @GetMapping("{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserResponse> getUserById(
+            @PathVariable("id") Long id
+    ) {
         UserResponse userResponse = userService.getUserById(id);
 
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
@@ -44,10 +48,12 @@ public class UserApiController {
 
     // DELETE - /api/users/{id}
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteUser(
+            @PathVariable("id") Long id
+    ) {
         userService.deleteUser(id);
 
-        String message = "Successfully deleted";
+        String message = "User is successfully deleted";
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

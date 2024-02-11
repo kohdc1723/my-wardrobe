@@ -3,7 +3,6 @@ package spring.mywardrobe.repository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import spring.mywardrobe.domain.Collection;
 
 import java.util.List;
@@ -21,7 +20,21 @@ public class CollectionRepository {
         collectionList.forEach(em::persist);
     }
 
-    public Collection findOne(Long id) {
+    public Collection findById(Long id) {
         return em.find(Collection.class, id);
+    }
+
+    public List<Collection> findByUser(Long userId) {
+        return em.createQuery(
+                "select c from Collection c" +
+                        " where c.user.id = :userId", Collection.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+    public void delete(Long id) {
+        Collection collection = em.find(Collection.class, id);
+
+        em.remove(collection);
     }
 }

@@ -22,7 +22,9 @@ public class ClothApiController {
 
     // POST - /api/clothes
     @PostMapping
-    public ResponseEntity<ClothResponse> createCloth(@RequestBody ClothCreateRequest clothCreateRequest) {
+    public ResponseEntity<ClothResponse> createCloth(
+            @RequestBody ClothCreateRequest clothCreateRequest
+    ) {
         ClothResponse clothResponse = clothService.createCloth(clothCreateRequest);
 
         return new ResponseEntity<>(clothResponse, HttpStatus.CREATED);
@@ -30,15 +32,17 @@ public class ClothApiController {
 
     // GET - /api/clothes/{id}
     @GetMapping("{id}")
-    public ResponseEntity<ClothResponse> getClothById(@PathVariable("id") Long id) {
+    public ResponseEntity<ClothResponse> getClothById(
+            @PathVariable("id") Long id
+    ) {
         ClothResponse clothResponse = clothService.getClothById(id);
 
         return new ResponseEntity<>(clothResponse, HttpStatus.OK);
     }
 
-    // GET - /api/clothes?userId={userId}&collectionId={collectionId}&name={name}&brand={brand}
+    // GET - /api/clothes?userId={userId}&collectionId={collectionId}&name={name}&brand={brand}&season={season}
     @GetMapping
-    public ResponseEntity<List<ClothResponse>> getAllClothes(
+    public ResponseEntity<List<ClothResponse>> getClothes(
             @Nonnull @RequestParam("userId") Long userId,
             @Nullable @RequestParam("collectionId") Long collectionId,
             @Nullable @RequestParam("name") String name,
@@ -63,10 +67,12 @@ public class ClothApiController {
 
     // DELETE - /api/clothes/{id}
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteCloth(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteCloth(
+            @PathVariable("id") Long id
+    ) {
         clothService.deleteCloth(id);
 
-        String message = "Successfully deleted";
+        String message = "Cloth is successfully deleted";
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

@@ -25,7 +25,7 @@ public class ClothService {
 
     public ClothResponse createCloth(ClothCreateRequest clothCreateRequest) {
         User user = userRepository.findOne(clothCreateRequest.getUserId());
-        Collection collection = collectionRepository.findOne(clothCreateRequest.getCollectionId());
+        Collection collection = collectionRepository.findById(clothCreateRequest.getCollectionId());
 
         Cloth cloth = new Cloth(
                 clothCreateRequest.getName(),
@@ -71,7 +71,7 @@ public class ClothService {
         List<Season> seasons = clothUpdateRequest.getSeasons();
         Long collectionId = clothUpdateRequest.getCollectionId();
 
-        Collection collection = collectionRepository.findOne(collectionId);
+        Collection collection = collectionRepository.findById(collectionId);
 
         cloth.updateCloth(name, brand, imageUrl, seasons, collection);
 

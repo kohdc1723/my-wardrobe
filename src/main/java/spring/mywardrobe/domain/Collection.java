@@ -25,4 +25,8 @@ public class Collection {
         this.name = name;
         this.user = user;
     }
+
+    public void updateCollection(String name) {
+        this.name = name;
+    }
 }

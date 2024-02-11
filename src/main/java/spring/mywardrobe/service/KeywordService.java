@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.mywardrobe.domain.Keyword;
 import spring.mywardrobe.domain.User;
+import spring.mywardrobe.dto.keyword.CreateKeywordRequest;
 import spring.mywardrobe.dto.keyword.KeywordResponse;
 import spring.mywardrobe.mapper.KeywordMapper;
 import spring.mywardrobe.repository.KeywordRepository;
@@ -17,9 +18,11 @@ public class KeywordService {
     private final KeywordRepository keywordRepository;
     private final UserRepository userRepository;
 
-    public KeywordResponse createKeyword(String name, Long userId) {
-        User user = userRepository.findOne(userId);
+    public KeywordResponse createKeyword(CreateKeywordRequest createKeywordRequest) {
+        Long userId = createKeywordRequest.getUserId();
+        String name = createKeywordRequest.getName();
 
+        User user = userRepository.findOne(userId);
         Keyword keyword = new Keyword(name, user);
 
         keywordRepository.save(keyword);
