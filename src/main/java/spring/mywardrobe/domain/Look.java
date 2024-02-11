@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,8 +25,36 @@ public class Look {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Look(String name, User user) {
+    @OneToMany(mappedBy = "look", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClothLook> clothLooks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "look", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<KeywordLook> keywordLooks = new ArrayList<>();
+
+    public Look(String name, User user, List<Cloth> clothList, List<Keyword> keywordList) {
         this.name = name;
         this.user = user;
+        setClothes(clothList);
+        setKeywords(keywordList);
+    }
+
+    public void setClothes(List<Cloth> clothList) {
+        if (clothList != null && !clothList.isEmpty()) {
+            this.clothLooks.clear();
+
+            clothList.stream()
+                    .map(cloth -> new ClothLook(cloth, this))
+                    .forEach(this.clothLooks::add);
+        }
+    }
+
+    public void setKeywords(List<Keyword> keywordList) {
+        if (keywordList != null && !keywordList.isEmpty()) {
+            this.keywordLooks.clear();
+
+            keywordList.stream()
+                    .map(keyword -> new KeywordLook(keyword, this))
+                    .forEach(this.keywordLooks::add);
+        }
     }
 }

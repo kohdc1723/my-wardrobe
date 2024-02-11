@@ -1,16 +1,14 @@
-package spring.mywardrobe.service;
+package spring.mywardrobe.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import spring.mywardrobe.domain.Collection;
 import spring.mywardrobe.domain.Season;
-import spring.mywardrobe.domain.User;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class ClothFilter {
+public class ClothSearchOptions {
     private Long userId;
     private Long collectionId;
     private String name;

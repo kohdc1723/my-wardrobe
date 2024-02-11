@@ -3,10 +3,7 @@ package spring.mywardrobe.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import spring.mywardrobe.domain.Cloth;
-import spring.mywardrobe.domain.Collection;
-import spring.mywardrobe.domain.Season;
-import spring.mywardrobe.domain.User;
+import spring.mywardrobe.domain.*;
 import spring.mywardrobe.dto.cloth.ClothCreateRequest;
 import spring.mywardrobe.dto.cloth.ClothResponse;
 import spring.mywardrobe.dto.cloth.ClothUpdateRequest;
@@ -56,9 +53,9 @@ public class ClothService {
             String brand,
             List<Season> seasons
     ) {
-        ClothFilter clothFilter = new ClothFilter(userId, collectionId, name, brand, seasons);
+        ClothSearchOptions clothSearchOptions = new ClothSearchOptions(userId, collectionId, name, brand, seasons);
 
-        List<Cloth> clothList = clothRepository.findAll(clothFilter);
+        List<Cloth> clothList = clothRepository.findAll(clothSearchOptions);
 
         return clothList.stream()
                 .map(ClothMapper::mapToClothResponse)

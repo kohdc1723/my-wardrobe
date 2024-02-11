@@ -64,8 +64,8 @@ public class UserService {
                 new Collection("Tops", user),
                 new Collection("Bottoms", user),
                 new Collection("Shoes", user),
-                new Collection("Accessories", user),
-                new Collection("Outers", user)
+                new Collection("Outerwear", user),
+                new Collection("Accessories", user)
         );
 
         collectionRepository.saveAll(collectionList);

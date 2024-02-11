@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import spring.mywardrobe.domain.*;
-import spring.mywardrobe.service.ClothFilter;
+import spring.mywardrobe.domain.ClothSearchOptions;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ClothRepository {
         return em.find(Cloth.class, clothId);
     }
 
-    public List<Cloth> findAll(ClothFilter clothFilter) {
+    public List<Cloth> findAll(ClothSearchOptions clothSearchOptions) {
         JPAQueryFactory query = new JPAQueryFactory(em);
 
         QCloth cloth = QCloth.cloth;
@@ -34,13 +34,13 @@ public class ClothRepository {
         return query
                 .select(cloth)
                 .from(cloth)
-                .leftJoin(cloth.user, user)
-                .leftJoin(cloth.collection, collection).fetchJoin()
-                .where(userEq(clothFilter.getUserId()),
-                        collectionEq(clothFilter.getCollectionId()),
-                        nameContains(clothFilter.getName()),
-                        brandContains(clothFilter.getBrand()),
-                        seasonsContains(clothFilter.getSeasons()))
+                .join(cloth.user, user)
+                .join(cloth.collection, collection).fetchJoin()
+                .where(userEq(clothSearchOptions.getUserId()),
+                        collectionEq(clothSearchOptions.getCollectionId()),
+                        nameContains(clothSearchOptions.getName()),
+                        brandContains(clothSearchOptions.getBrand()),
+                        seasonsContains(clothSearchOptions.getSeasons()))
                 .fetch();
     }
 
@@ -87,6 +87,9 @@ public class ClothRepository {
             return null;
         }
 
-        return QCloth.cloth.seasons.any().in(seasons);
+        return seasons.stream()
+                .map(QCloth.cloth.seasons::contains)
+                .reduce(BooleanExpression::and)
+                .orElse(null);
     }
 }
