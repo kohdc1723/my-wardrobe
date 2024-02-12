@@ -2,6 +2,7 @@ package spring.mywardrobe.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import spring.mywardrobe.domain.Keyword;
 import spring.mywardrobe.domain.User;
 import spring.mywardrobe.dto.keyword.CreateKeywordRequest;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class KeywordService {
     private final KeywordRepository keywordRepository;
     private final UserRepository userRepository;
@@ -22,7 +24,7 @@ public class KeywordService {
         Long userId = createKeywordRequest.getUserId();
         String name = createKeywordRequest.getName();
 
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId);
         Keyword keyword = new Keyword(name, user);
 
         keywordRepository.save(keyword);
@@ -30,12 +32,14 @@ public class KeywordService {
         return KeywordMapper.mapToKeywordResponse(keyword);
     }
 
+    @Transactional(readOnly = true)
     public KeywordResponse getKeywordById(Long id) {
         Keyword keyword = keywordRepository.findById(id);
 
         return KeywordMapper.mapToKeywordResponse(keyword);
     }
 
+    @Transactional(readOnly = true)
     public List<KeywordResponse> getKeywordsByUser(Long userId) {
         List<Keyword> keywordList = keywordRepository.findByUser(userId);
 

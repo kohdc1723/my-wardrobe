@@ -38,7 +38,13 @@ public class Look {
         setKeywords(keywordList);
     }
 
-    public void setClothes(List<Cloth> clothList) {
+    public void updateLook(String name, List<Cloth> clothList, List<Keyword> keywordList) {
+        this.name = name;
+        setClothes(clothList);
+        setKeywords(keywordList);
+    }
+
+    private void setClothes(List<Cloth> clothList) {
         if (clothList != null && !clothList.isEmpty()) {
             this.clothLooks.clear();
 
@@ -48,7 +54,7 @@ public class Look {
         }
     }
 
-    public void setKeywords(List<Keyword> keywordList) {
+    private void setKeywords(List<Keyword> keywordList) {
         if (keywordList != null && !keywordList.isEmpty()) {
             this.keywordLooks.clear();
 

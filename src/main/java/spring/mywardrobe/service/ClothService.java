@@ -13,6 +13,7 @@ import spring.mywardrobe.repository.ClothRepository;
 import spring.mywardrobe.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,8 +25,11 @@ public class ClothService {
     private final CollectionRepository collectionRepository;
 
     public ClothResponse createCloth(ClothCreateRequest clothCreateRequest) {
-        User user = userRepository.findOne(clothCreateRequest.getUserId());
-        Collection collection = collectionRepository.findById(clothCreateRequest.getCollectionId());
+        Long userId = clothCreateRequest.getUserId();
+        Long collectionId = clothCreateRequest.getCollectionId();
+
+        User user = userRepository.findById(userId);
+        Collection collection = collectionRepository.findById(collectionId);
 
         Cloth cloth = new Cloth(
                 clothCreateRequest.getName(),
@@ -40,12 +44,14 @@ public class ClothService {
         return ClothMapper.mapToClothResponse(cloth);
     }
 
+    @Transactional(readOnly = true)
     public ClothResponse getClothById(Long clothId) {
-        Cloth cloth = clothRepository.findOne(clothId);
+        Cloth cloth = clothRepository.findById(clothId);
 
         return ClothMapper.mapToClothResponse(cloth);
     }
 
+    @Transactional(readOnly = true)
     public List<ClothResponse> getAllClothes(
             Long userId,
             Long collectionId,
@@ -55,7 +61,7 @@ public class ClothService {
     ) {
         ClothSearchOptions clothSearchOptions = new ClothSearchOptions(userId, collectionId, name, brand, seasons);
 
-        List<Cloth> clothList = clothRepository.findAll(clothSearchOptions);
+        List<Cloth> clothList = clothRepository.find(clothSearchOptions);
 
         return clothList.stream()
                 .map(ClothMapper::mapToClothResponse)
@@ -63,7 +69,7 @@ public class ClothService {
     }
 
     public ClothResponse updateCloth(Long id, ClothUpdateRequest clothUpdateRequest) {
-        Cloth cloth = clothRepository.findOne(id);
+        Cloth cloth = clothRepository.findById(id);
 
         String name = clothUpdateRequest.getName();
         String brand = clothUpdateRequest.getBrand();
@@ -71,7 +77,8 @@ public class ClothService {
         List<Season> seasons = clothUpdateRequest.getSeasons();
         Long collectionId = clothUpdateRequest.getCollectionId();
 
-        Collection collection = collectionRepository.findById(collectionId);
+        Collection collection = collectionId != null
+                ? collectionRepository.findById(collectionId) : null;
 
         cloth.updateCloth(name, brand, imageUrl, seasons, collection);
 

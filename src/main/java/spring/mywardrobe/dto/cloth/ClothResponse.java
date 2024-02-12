@@ -15,5 +15,5 @@ public class ClothResponse {
     private String brand;
     private String imageUrl;
     private List<Season> seasons;
-    private CollectionResponse collection;
+    private String collection;
 }

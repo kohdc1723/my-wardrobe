@@ -1,5 +1,6 @@
 package spring.mywardrobe.controller;
 
+import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +40,8 @@ public class CollectionApiController {
 
     // GET - /api/collections?userId={userId}
     @GetMapping
-    public ResponseEntity<List<CollectionResponse>> getCollections(
-            @RequestParam("userId") Long userId
+    public ResponseEntity<List<CollectionResponse>> getCollectionsByUser(
+            @Nonnull @RequestParam("userId") Long userId
     ) {
         List<CollectionResponse> collectionResponseList = collectionService.getCollectionByUser(userId);
 
@@ -59,6 +60,7 @@ public class CollectionApiController {
     }
 
     // DELETE - /api/collections/{id}
+    @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCollection(
             @PathVariable("id") Long id
     ) {

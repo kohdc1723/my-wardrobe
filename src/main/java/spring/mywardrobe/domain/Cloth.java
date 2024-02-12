@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -51,10 +52,10 @@ public class Cloth {
     }
 
     public void updateCloth(String name, String brand, String imageUrl, List<Season> seasons, Collection collection) {
-        this.name = name;
-        this.brand = brand;
-        this.imageUrl = imageUrl;
-        this.seasons = seasons;
-        this.collection = collection;
+        this.name = Objects.requireNonNullElse(name, this.name);
+        this.brand = Objects.requireNonNullElse(brand, this.brand);
+        this.imageUrl = Objects.requireNonNullElse(imageUrl, this.imageUrl);
+        this.seasons = Objects.requireNonNullElse(seasons, this.seasons);
+        this.collection = Objects.requireNonNullElse(collection, this.collection);
     }
 }

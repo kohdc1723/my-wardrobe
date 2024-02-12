@@ -2,7 +2,6 @@ package spring.mywardrobe.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import spring.mywardrobe.domain.Season;
 
 import java.util.List;
 

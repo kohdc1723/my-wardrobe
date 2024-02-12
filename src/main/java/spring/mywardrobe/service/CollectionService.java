@@ -24,7 +24,7 @@ public class CollectionService {
     public CollectionResponse createCollection(CollectionCreateRequest collectionCreateRequest) {
         String name = collectionCreateRequest.getName();
         Long userId = collectionCreateRequest.getUserId();
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId);
 
         Collection collection = new Collection(name, user);
 

@@ -10,5 +10,4 @@ public class UserUpdateRequest {
     private String password;
     private String firstname;
     private String lastname;
-    private boolean isDeleted;
 }

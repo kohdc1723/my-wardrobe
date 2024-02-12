@@ -20,11 +20,25 @@ public class ClothRepository {
         em.persist(cloth);
     }
 
-    public Cloth findOne(Long clothId) {
-        return em.find(Cloth.class, clothId);
+    public Cloth findById(Long clothId) {
+        return em.createQuery(
+                "select c from Cloth c" +
+                        " join fetch c.seasons" +
+                        " join fetch c.collection" +
+                " where c.id = :clothId", Cloth.class)
+                .setParameter("clothId", clothId)
+                .getSingleResult();
     }
 
-    public List<Cloth> findAll(ClothSearchOptions clothSearchOptions) {
+    public List<Cloth> findAllByIds(List<Long> clothIds) {
+        return em.createQuery(
+                "select c from Cloth c" +
+                " where c.id in :clothIds", Cloth.class)
+                .setParameter("clothIds", clothIds)
+                .getResultList();
+    }
+
+    public List<Cloth> find(ClothSearchOptions clothSearchOptions) {
         JPAQueryFactory query = new JPAQueryFactory(em);
 
         QCloth cloth = QCloth.cloth;
@@ -36,6 +50,7 @@ public class ClothRepository {
                 .from(cloth)
                 .join(cloth.user, user)
                 .join(cloth.collection, collection).fetchJoin()
+                .join(cloth.seasons).fetchJoin()
                 .where(userEq(clothSearchOptions.getUserId()),
                         collectionEq(clothSearchOptions.getCollectionId()),
                         nameContains(clothSearchOptions.getName()),

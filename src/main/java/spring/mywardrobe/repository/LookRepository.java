@@ -21,32 +21,40 @@ public class LookRepository {
         return look.getId();
     }
 
-    public Look findOne(Long id) {
+    public Look findById(Long id) {
         return em.find(Look.class, id);
     }
 
-    public List<Look> findAll(LookSearchOptions lookSearchOptions) {
+    public List<Look> find(LookSearchOptions lookSearchOptions) {
         JPAQueryFactory query = new JPAQueryFactory(em);
 
         QLook look = QLook.look;
         QUser user = QUser.user;
         QClothLook clothLook = QClothLook.clothLook;
         QCloth cloth = QCloth.cloth;
+        QCollection collection = QCollection.collection;
         QKeywordLook keywordLook = QKeywordLook.keywordLook;
         QKeyword keyword = QKeyword.keyword;
 
         return query
-                .select(look)
+                .selectDistinct(look)
                 .from(look)
                 .join(look.user, user)
-                .join(look.clothLooks, clothLook)
+                .join(look.clothLooks, clothLook).fetchJoin()
                 .join(clothLook.cloth, cloth).fetchJoin()
+                .join(cloth.collection, collection).fetchJoin()
                 .join(look.keywordLooks, keywordLook)
-                .join(keywordLook.keyword, keyword).fetchJoin()
+                .join(keywordLook.keyword, keyword)
                 .where(userEq(lookSearchOptions.getUserId()),
                         nameContains(lookSearchOptions.getName()),
-                        keywordContains(lookSearchOptions.getKeywords()))
+                        keywordContains(lookSearchOptions.getKeywordIds()))
                 .fetch();
+    }
+
+    public void delete(Long id) {
+        Look look = em.find(Look.class, id);
+
+        em.remove(look);
     }
 
     private BooleanExpression userEq(Long userId) {
@@ -65,14 +73,14 @@ public class LookRepository {
         return QLook.look.name.containsIgnoreCase(name);
     }
 
-    private BooleanExpression keywordContains(List<String> keywords) {
-        if (keywords == null || keywords.isEmpty()) {
+    private BooleanExpression keywordContains(List<Long> keywordIds) {
+        if (keywordIds == null || keywordIds.isEmpty()) {
             return null;
         }
 
-        return keywords.stream()
-                .map(QKeyword.keyword.name::containsIgnoreCase)
-                .reduce(BooleanExpression::and)
+        return keywordIds.stream()
+                .map(QKeyword.keyword.id::eq)
+                .reduce(BooleanExpression::or)
                 .orElse(null);
     }
 }

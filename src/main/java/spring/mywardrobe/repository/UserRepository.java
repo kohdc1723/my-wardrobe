@@ -18,12 +18,11 @@ public class UserRepository {
         return user.getId();
     }
 
-    public List<User> findAll() {
-        return em.createQuery("select u from User u where u.isDeleted = false", User.class)
-                .getResultList();
-    }
-
-    public User findOne(Long id) {
-        return em.find(User.class, id);
+    public User findById(Long id) {
+        return em.createQuery(
+                "select u from User u" +
+                " where u.id = :id and u.isDeleted = false", User.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 }

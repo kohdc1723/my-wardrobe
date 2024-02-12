@@ -33,13 +33,13 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse getUserById(Long id) {
-        User user = userRepository.findOne(id);
+        User user = userRepository.findById(id);
 
         return UserMapper.mapToUserResponse(user);
     }
 
     public UserResponse updateUser(Long id, UserUpdateRequest userUpdateRequest) {
-        User user = userRepository.findOne(id);
+        User user = userRepository.findById(id);
 
         String email = userUpdateRequest.getEmail();
         String password = userUpdateRequest.getPassword();
@@ -52,13 +52,13 @@ public class UserService {
     }
 
     public void deleteUser(Long userId) {
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId);
 
         user.delete();
     }
 
     private void initDefaultCollections(Long userId) {
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId);
 
         List<Collection> collectionList = Arrays.asList(
                 new Collection("Tops", user),

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.mywardrobe.domain.*;
 import spring.mywardrobe.dto.look.LookCreateRequest;
 import spring.mywardrobe.dto.look.LookResponse;
+import spring.mywardrobe.dto.look.LookUpdateRequest;
 import spring.mywardrobe.mapper.LookMapper;
 import spring.mywardrobe.repository.ClothRepository;
 import spring.mywardrobe.repository.KeywordRepository;
@@ -28,8 +29,8 @@ public class LookService {
         List<Long> clothIds = lookCreateRequest.getClothIds();
         List<Long> keywordIds = lookCreateRequest.getKeywordIds();
 
-        User user = userRepository.findOne(userId);
-        List<Cloth> clothList = clothIds.stream().map(clothRepository::findOne).toList();
+        User user = userRepository.findById(userId);
+        List<Cloth> clothList = clothIds.stream().map(clothRepository::findById).toList();
         List<Keyword> keywordList = keywordIds.stream().map(keywordRepository::findById).toList();
 
         Look look = new Look(lookCreateRequest.getName(), user, clothList, keywordList);
@@ -39,13 +40,35 @@ public class LookService {
         return LookMapper.mapToLookResponse(look);
     }
 
-    public List<LookResponse> getAllLooks(Long userId, String name, List<String> keywords) {
-        LookSearchOptions lookSearchOptions = new LookSearchOptions(userId, name, keywords);
+    public LookResponse getLookById(Long id) {
+        Look look = lookRepository.findById(id);
 
-        List<Look> lookList = lookRepository.findAll(lookSearchOptions);
+        return LookMapper.mapToLookResponse(look);
+    }
+
+    public List<LookResponse> getLooks(Long userId, String name, List<Long> keywordIds) {
+        LookSearchOptions lookSearchOptions = new LookSearchOptions(userId, name, keywordIds);
+
+        List<Look> lookList = lookRepository.find(lookSearchOptions);
 
         return lookList.stream()
                 .map(LookMapper::mapToLookResponse)
                 .toList();
+    }
+
+    public LookResponse updateLook(Long id, LookUpdateRequest lookUpdateRequest) {
+        String name = lookUpdateRequest.getName();
+
+        List<Cloth> clothList = clothRepository.findAllByIds(lookUpdateRequest.getClothIds());
+        List<Keyword> keywordList = keywordRepository.findAllByIds(lookUpdateRequest.getKeywordIds());
+
+        Look look = lookRepository.findById(id);
+        look.updateLook(name, clothList, keywordList);
+
+        return LookMapper.mapToLookResponse(look);
+    }
+
+    public void deleteLook(Long id) {
+        lookRepository.delete(id);
     }
 }
