@@ -14,6 +14,7 @@
 - Create a look by combining clothing items
 
 ### Entity Relationship Diagram
+![img.png](img.png)
 
 ---
 
