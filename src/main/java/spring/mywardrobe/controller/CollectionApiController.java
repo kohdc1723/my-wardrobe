@@ -1,6 +1,7 @@
 package spring.mywardrobe.controller;
 
 import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class CollectionApiController {
     // POST - /api/collections
     @PostMapping
     public ResponseEntity<CollectionResponse> createCollection(
-            @RequestBody CollectionCreateRequest collectionCreateRequest
+            @RequestBody @Valid CollectionCreateRequest collectionCreateRequest
     ) {
         CollectionResponse collectionResponse = collectionService.createCollection(collectionCreateRequest);
 
@@ -52,7 +53,7 @@ public class CollectionApiController {
     @PutMapping("{id}")
     public ResponseEntity<CollectionResponse> updateCollection(
             @PathVariable("id") Long id,
-            @RequestBody CollectionUpdateRequest collectionUpdateRequest
+            @RequestBody @Valid CollectionUpdateRequest collectionUpdateRequest
     ) {
         CollectionResponse collectionResponse = collectionService.updateCollection(id, collectionUpdateRequest);
 

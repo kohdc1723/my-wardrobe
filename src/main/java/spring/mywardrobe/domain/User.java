@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity
 @Getter
 @Table(name = "users")
@@ -38,10 +40,10 @@ public class User {
     }
 
     public void updateUser(String email, String password, String firstname, String lastname) {
-        this.email = email;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.email = Objects.requireNonNullElse(email, this.email);
+        this.password = Objects.requireNonNullElse(password, this.password);
+        this.firstname = Objects.requireNonNullElse(firstname, this.firstname);
+        this.lastname = Objects.requireNonNullElse(lastname, this.lastname);
     }
 
     public void delete() {

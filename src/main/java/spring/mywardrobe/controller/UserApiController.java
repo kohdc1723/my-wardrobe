@@ -1,5 +1,6 @@
 package spring.mywardrobe.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class UserApiController {
     // POST - /api/users
     @PostMapping
     public ResponseEntity<UserResponse> createUser(
-            @RequestBody UserCreateRequest userCreateRequest
+            @RequestBody @Valid UserCreateRequest userCreateRequest
     ) {
         UserResponse userResponse = userService.createUser(userCreateRequest);
 

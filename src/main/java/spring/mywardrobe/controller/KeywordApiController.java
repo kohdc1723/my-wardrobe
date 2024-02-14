@@ -1,6 +1,7 @@
 package spring.mywardrobe.controller;
 
 import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class KeywordApiController {
     // POST - /api/keywords
     @PostMapping
     public ResponseEntity<KeywordResponse> createKeyword(
-            @RequestBody CreateKeywordRequest createKeywordRequest
+            @RequestBody @Valid CreateKeywordRequest createKeywordRequest
     ) {
         KeywordResponse keywordResponse = keywordService.createKeyword(createKeywordRequest);
 
@@ -52,7 +53,7 @@ public class KeywordApiController {
     @PutMapping("{id}")
     public ResponseEntity<KeywordResponse> updateKeyword(
             @PathVariable("id") Long id,
-            @RequestBody UpdateKeywordRequest updateKeywordRequest
+            @RequestBody @Valid UpdateKeywordRequest updateKeywordRequest
     ) {
         String name = updateKeywordRequest.getName();
 

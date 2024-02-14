@@ -2,6 +2,7 @@ package spring.mywardrobe.controller;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class LookApiController {
     // POST - /api/looks
     @PostMapping
     public ResponseEntity<LookResponse> createLook(
-            @RequestBody LookCreateRequest lookCreateRequest
+            @RequestBody @Valid LookCreateRequest lookCreateRequest
     ) {
         LookResponse lookResponse = lookService.createLook(lookCreateRequest);
 
@@ -55,7 +56,7 @@ public class LookApiController {
     @PutMapping("{id}")
     public ResponseEntity<LookResponse> updateLook(
             @PathVariable("id") Long id,
-            @RequestBody LookUpdateRequest lookUpdateRequest
+            @RequestBody @Valid LookUpdateRequest lookUpdateRequest
     ) {
         LookResponse lookResponse = lookService.updateLook(id, lookUpdateRequest);
 

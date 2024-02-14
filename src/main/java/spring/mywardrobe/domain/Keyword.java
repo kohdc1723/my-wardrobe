@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,6 +30,6 @@ public class Keyword {
     }
 
     public void updateKeyword(String name) {
-        this.name = name;
+        this.name = Objects.requireNonNullElse(name, this.name);
     }
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -39,7 +40,7 @@ public class Look {
     }
 
     public void updateLook(String name, List<Cloth> clothList, List<Keyword> keywordList) {
-        this.name = name;
+        this.name = Objects.requireNonNullElse(name, this.name);
         setClothes(clothList);
         setKeywords(keywordList);
     }

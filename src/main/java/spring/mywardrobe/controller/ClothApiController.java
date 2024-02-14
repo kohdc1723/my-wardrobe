@@ -2,6 +2,8 @@ package spring.mywardrobe.controller;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class ClothApiController {
     // POST - /api/clothes
     @PostMapping
     public ResponseEntity<ClothResponse> createCloth(
-            @RequestBody ClothCreateRequest clothCreateRequest
+            @Valid @RequestBody ClothCreateRequest clothCreateRequest
     ) {
         ClothResponse clothResponse = clothService.createCloth(clothCreateRequest);
 
@@ -58,7 +60,7 @@ public class ClothApiController {
     @PutMapping("{id}")
     public ResponseEntity<ClothResponse> updateCloth(
             @PathVariable("id") Long id,
-            @RequestBody ClothUpdateRequest clothUpdateRequest
+            @Valid @RequestBody ClothUpdateRequest clothUpdateRequest
     ) {
         ClothResponse clothResponse = clothService.updateCloth(id, clothUpdateRequest);
 
