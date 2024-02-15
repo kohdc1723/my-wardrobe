@@ -12,6 +12,7 @@
 - Create a look by combining clothing items
 
 ### Built with
+![java]
 ![spring]
 ![springboot]
 ![jpa-hibernate]
@@ -96,6 +97,7 @@
 
 ---
 
+[java]: https://img.shields.io/badge/java-F8981D?style=for-the-badge&logoColor=white
 [spring]: https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white
 [springboot]: https://img.shields.io/badge/spring%20boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white
 [mysql]: https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white
