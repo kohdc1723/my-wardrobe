@@ -25,4 +25,14 @@ public class UserRepository {
                 .setParameter("id", id)
                 .getSingleResult();
     }
+
+    public boolean existsByEmail(String email) {
+        List<User> userList = em.createQuery(
+                "select u from User u" +
+                        " where u.email = :email", User.class)
+                .setParameter("email", email)
+                .getResultList();
+
+        return !userList.isEmpty();
+    }
 }

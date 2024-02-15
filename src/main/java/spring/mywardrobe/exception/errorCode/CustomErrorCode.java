@@ -6,7 +6,11 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum CustomErrorCode implements ErrorCode {
-    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource is not found"),
+    EMAIL_DUPLICATE(HttpStatus.CONFLICT, "Email already in use"),
+    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not found"),
+    REQUEST_PARAMETER_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "Request parameter type mismatch"),
+    INVALID_REQUEST_BODY(HttpStatus.BAD_REQUEST, "Invalid request body"),
+    INVALID_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "Invalid request parameter"),
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "Parameter is invalid"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
 

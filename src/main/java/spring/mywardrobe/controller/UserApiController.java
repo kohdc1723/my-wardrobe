@@ -16,16 +16,6 @@ import spring.mywardrobe.service.UserService;
 public class UserApiController {
     private final UserService userService;
 
-    // POST - /api/users
-    @PostMapping
-    public ResponseEntity<UserResponse> createUser(
-            @RequestBody @Valid UserCreateRequest userCreateRequest
-    ) {
-        UserResponse userResponse = userService.createUser(userCreateRequest);
-
-        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
-    }
-
     // GET - /api/users/{id}
     @GetMapping("{id}")
     public ResponseEntity<UserResponse> getUserById(

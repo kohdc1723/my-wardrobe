@@ -14,7 +14,9 @@
 ### Built with
 ![java]
 ![spring]
-![springboot]
+![spring-boot]
+![spring-security]
+![h2]
 ![jpa-hibernate]
 
 ---
@@ -99,6 +101,7 @@
 
 [java]: https://img.shields.io/badge/java-F8981D?style=for-the-badge&logoColor=white
 [spring]: https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white
-[springboot]: https://img.shields.io/badge/spring%20boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white
-[mysql]: https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white
+[spring-boot]: https://img.shields.io/badge/spring%20boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white
+[spring-security]: https://img.shields.io/badge/spring%20security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white
+[h2]: https://img.shields.io/badge/h2%20database-0000bb?style=for-the-badge&logoColor=white
 [jpa-hibernate]: https://img.shields.io/badge/jpa%20hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white
