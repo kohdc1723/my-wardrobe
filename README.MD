@@ -39,6 +39,12 @@
 
 ### API Endpoints
 
+**Auth**
+
+`POST`: `/api/auth/register`
+
+`POST`: `/api/auth/login`
+
 **Users**
 
 `POST`: `/api/users`
