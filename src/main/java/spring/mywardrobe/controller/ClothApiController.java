@@ -42,20 +42,6 @@ public class ClothApiController {
         return new ResponseEntity<>(clothResponse, HttpStatus.OK);
     }
 
-    // GET - /api/clothes?userId={userId}&collectionId={collectionId}&name={name}&brand={brand}&season={season}
-    @GetMapping
-    public ResponseEntity<List<ClothResponse>> getClothes(
-            @Nonnull @RequestParam("userId") Long userId,
-            @Nullable @RequestParam("collectionId") Long collectionId,
-            @Nullable @RequestParam("name") String name,
-            @Nullable @RequestParam("brand") String brand,
-            @Nullable @RequestParam("season") List<Season> seasons
-    ) {
-        List<ClothResponse> clothResponseList = clothService.getAllClothes(userId, collectionId, name, brand, seasons);
-
-        return new ResponseEntity<>(clothResponseList, HttpStatus.OK);
-    }
-
     // PUT - /api/clothes/{id}
     @PutMapping("{id}")
     public ResponseEntity<ClothResponse> updateCloth(

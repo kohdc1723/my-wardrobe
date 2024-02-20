@@ -50,7 +50,15 @@
 
 `GET`: `/api/users/{id}`
 
-`PUT`: `/api/users`
+`GET`: `/api/users/{id}/clothes`
+
+`GET`: `/api/users/{id}/collections`
+
+`GET`: `/api/users/{id}/looks`
+
+`GET`: `/api/users/{id}/keywords`
+
+`PUT`: `/api/users/{id}`
 
 `DELETE`: `/api/users/{id}`
 
@@ -59,8 +67,6 @@
 `POST`: `/api/clothes`
 
 `GET`: `/api/clothes/{id}`
-
-`GET`: `/api/clothes`
 
 `PUT`: `/api/clothes`
 
@@ -72,8 +78,6 @@
 
 `GET`: `/api/collections/{id}`
 
-`GET`: `/api/collections`
-
 `PUT`: `/api/collections`
 
 `DELETE`: `/api/collections/{id}`
@@ -84,8 +88,6 @@
 
 `GET`: `/api/looks/{id}`
 
-`GET`: `/api/looks`
-
 `PUT`: `/api/looks`
 
 `DELETE`: `/api/looks/{id}`
@@ -95,8 +97,6 @@
 `POST`: `/api/keywords`
 
 `GET`: `/api/keywords/{id}`
-
-`GET`: `/api/keywords`
 
 `PUT`: `/api/keywords`
 

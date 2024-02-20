@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum CustomErrorCode implements ErrorCode {
+    EMAIL_DOES_NOT_EXIST(HttpStatus.UNAUTHORIZED, "Email does not exist"),
+    WRONG_PASSWORD(HttpStatus.UNAUTHORIZED, "Wrong password"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User not found"),
     EMAIL_DUPLICATE(HttpStatus.CONFLICT, "Email already in use"),
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not found"),

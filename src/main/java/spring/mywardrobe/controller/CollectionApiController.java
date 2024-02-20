@@ -39,16 +39,6 @@ public class CollectionApiController {
         return new ResponseEntity<>(collectionResponse, HttpStatus.OK);
     }
 
-    // GET - /api/collections?userId={userId}
-    @GetMapping
-    public ResponseEntity<List<CollectionResponse>> getCollectionsByUser(
-            @Nonnull @RequestParam("userId") Long userId
-    ) {
-        List<CollectionResponse> collectionResponseList = collectionService.getCollectionByUser(userId);
-
-        return new ResponseEntity<>(collectionResponseList, HttpStatus.OK);
-    }
-
     // PUT - /api/collections/{id}
     @PutMapping("{id}")
     public ResponseEntity<CollectionResponse> updateCollection(

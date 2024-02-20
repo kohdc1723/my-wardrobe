@@ -7,6 +7,8 @@ import spring.mywardrobe.domain.Keyword;
 import spring.mywardrobe.domain.User;
 import spring.mywardrobe.dto.keyword.CreateKeywordRequest;
 import spring.mywardrobe.dto.keyword.KeywordResponse;
+import spring.mywardrobe.exception.RestApiException;
+import spring.mywardrobe.exception.errorCode.CustomErrorCode;
 import spring.mywardrobe.mapper.KeywordMapper;
 import spring.mywardrobe.repository.KeywordRepository;
 import spring.mywardrobe.repository.UserRepository;
@@ -24,7 +26,8 @@ public class KeywordService {
         Long userId = createKeywordRequest.getUserId();
         String name = createKeywordRequest.getName();
 
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
         Keyword keyword = new Keyword(name, user);
 
         keywordRepository.save(keyword);

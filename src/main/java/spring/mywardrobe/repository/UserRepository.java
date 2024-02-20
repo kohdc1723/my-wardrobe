@@ -20,12 +20,18 @@ public class UserRepository {
         return user.getId();
     }
 
-    public User findById(Long id) {
-        return em.createQuery(
-                "select u from User u" +
-                " where u.id = :id and u.isDeleted = false", User.class)
-                .setParameter("id", id)
-                .getSingleResult();
+    public Optional<User> findById(Long id) {
+        try {
+            User user = em.createQuery(
+                    "select u from User u" +
+                            " where u.id = :id and u.isDeleted = false", User.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+
+            return Optional.of(user);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     public Optional<User> findByEmail(String email) {

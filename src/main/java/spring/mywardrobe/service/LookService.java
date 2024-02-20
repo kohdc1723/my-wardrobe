@@ -7,6 +7,8 @@ import spring.mywardrobe.domain.*;
 import spring.mywardrobe.dto.look.LookCreateRequest;
 import spring.mywardrobe.dto.look.LookResponse;
 import spring.mywardrobe.dto.look.LookUpdateRequest;
+import spring.mywardrobe.exception.RestApiException;
+import spring.mywardrobe.exception.errorCode.CustomErrorCode;
 import spring.mywardrobe.mapper.LookMapper;
 import spring.mywardrobe.repository.ClothRepository;
 import spring.mywardrobe.repository.KeywordRepository;
@@ -29,7 +31,8 @@ public class LookService {
         List<Long> clothIds = lookCreateRequest.getClothIds();
         List<Long> keywordIds = lookCreateRequest.getKeywordIds();
 
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
         List<Cloth> clothList = clothIds.stream().map(clothRepository::findById).toList();
         List<Keyword> keywordList = keywordIds.stream().map(keywordRepository::findById).toList();
 

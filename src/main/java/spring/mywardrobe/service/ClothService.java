@@ -7,6 +7,8 @@ import spring.mywardrobe.domain.*;
 import spring.mywardrobe.dto.cloth.ClothCreateRequest;
 import spring.mywardrobe.dto.cloth.ClothResponse;
 import spring.mywardrobe.dto.cloth.ClothUpdateRequest;
+import spring.mywardrobe.exception.RestApiException;
+import spring.mywardrobe.exception.errorCode.CustomErrorCode;
 import spring.mywardrobe.mapper.ClothMapper;
 import spring.mywardrobe.repository.CollectionRepository;
 import spring.mywardrobe.repository.ClothRepository;
@@ -27,7 +29,8 @@ public class ClothService {
         Long userId = clothCreateRequest.getUserId();
         Long collectionId = clothCreateRequest.getCollectionId();
 
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
         Collection collection = collectionRepository.findById(collectionId);
 
         Cloth cloth = new Cloth(

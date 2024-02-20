@@ -21,13 +21,15 @@ public class UserService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public UserResponse getUserById(Long id) {
-        User user = userRepository.findById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
 
         return UserMapper.mapToUserResponse(user);
     }
 
     public UserResponse updateUser(Long id, UserUpdateRequest userUpdateRequest) {
-        User user = userRepository.findById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
 
         String email = userUpdateRequest.getEmail();
         String password = userUpdateRequest.getPassword();
@@ -40,7 +42,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
 
         user.delete();
     }

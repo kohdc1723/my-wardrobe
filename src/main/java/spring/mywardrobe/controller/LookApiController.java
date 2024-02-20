@@ -40,18 +40,6 @@ public class LookApiController {
         return new ResponseEntity<>(lookResponse, HttpStatus.OK);
     }
 
-    // GET - /api/looks?userId={userId}&keywordId={keywordId}
-    @GetMapping
-    public ResponseEntity<List<LookResponse>> getLooks(
-            @Nonnull @RequestParam("userId") Long userId,
-            @Nullable @RequestParam("name") String name,
-            @Nullable @RequestParam("keywordId") List<Long> keywordIds
-    ) {
-        List<LookResponse> lookResponseList = lookService.getLooks(userId, name, keywordIds);
-
-        return new ResponseEntity<>(lookResponseList, HttpStatus.OK);
-    }
-
     // PUT - /api/looks/{id}
     @PutMapping("{id}")
     public ResponseEntity<LookResponse> updateLook(

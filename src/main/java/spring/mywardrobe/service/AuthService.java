@@ -3,6 +3,7 @@ package spring.mywardrobe.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,13 +52,18 @@ public class AuthService {
     public JwtResponse login(LoginRequest loginRequest) {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.EMAIL_DOES_NOT_EXIST));
+
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(email, password);
 
-        authenticationManager.authenticate(authToken);
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
+        try {
+            authenticationManager.authenticate(authToken);
+        } catch (AuthenticationException e) {
+            throw new RestApiException(CustomErrorCode.WRONG_PASSWORD);
+        }
 
         String token = jwtService.generateToken(user);
 
@@ -73,7 +79,8 @@ public class AuthService {
     }
 
     private void initDefaultCollections(Long userId) {
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
 
         List<Collection> collectionList = Arrays.asList(
                 new Collection("Tops", user),

@@ -39,16 +39,6 @@ public class KeywordApiController {
         return new ResponseEntity<>(keywordResponse, HttpStatus.OK);
     }
 
-    // GET - /api/keywords?userId={userId}
-    @GetMapping
-    public ResponseEntity<List<KeywordResponse>> getKeywordByUser(
-            @Nonnull @RequestParam("userId") Long userId
-    ) {
-        List<KeywordResponse> keywordResponseList = keywordService.getKeywordsByUser(userId);
-
-        return new ResponseEntity<>(keywordResponseList, HttpStatus.OK);
-    }
-
     // PUT - /api/keywords/{id}
     @PutMapping("{id}")
     public ResponseEntity<KeywordResponse> updateKeyword(
