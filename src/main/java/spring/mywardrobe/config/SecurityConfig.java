@@ -32,15 +32,19 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         httpSecurity.authorizeHttpRequests(req -> {
+            // auth
             req.requestMatchers("/api/auth/**").permitAll();
-
-            req.requestMatchers("/api/users/{id}").access(((authentication, context) -> {
+            // users
+            req.requestMatchers(
+                    "/api/users/{id}",
+                    "/api/users/{id}/**"
+            ).access(((authentication, context) -> {
                 String id = context.getVariables().get("id");
                 boolean isMatch = webSecurity.isUserIdMatch(authentication, id);
 
                 return new AuthorizationDecision(isMatch);
             }));
-
+            // any
             req.anyRequest().authenticated();
         });
 

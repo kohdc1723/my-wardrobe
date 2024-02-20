@@ -44,7 +44,19 @@
 
 `POST`: `/api/auth/register`
 
+| params    | type   | required | description                                                                       |
+|-----------|--------|----------|-----------------------------------------------------------------------------------|
+| email     | string | true     | valid email format                                                                |
+| password  | string | true     | min length is 8 with at least one lowercase, uppercase, number, special character |
+| firstname | string | true     | N/A                                                                               |
+| lastname  | string | true     | N/A                                                                               |
+
 `POST`: `/api/auth/login`
+
+| params    | type   | required | description |
+|-----------|--------|----------|-------------|
+| email     | string | true     | N/A         |
+| password  | string | true     | N/A         |
 
 **Users**
 
