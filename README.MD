@@ -16,6 +16,7 @@
 ![spring]
 ![spring-boot]
 ![spring-security]
+![jwt]
 ![h2]
 ![jpa-hibernate]
 
@@ -46,8 +47,6 @@
 `POST`: `/api/auth/login`
 
 **Users**
-
-`POST`: `/api/users`
 
 `GET`: `/api/users/{id}`
 
@@ -111,3 +110,4 @@
 [spring-security]: https://img.shields.io/badge/spring%20security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white
 [h2]: https://img.shields.io/badge/h2%20database-0000bb?style=for-the-badge&logoColor=white
 [jpa-hibernate]: https://img.shields.io/badge/jpa%20hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white
+[jwt]: https://img.shields.io/badge/json%20web%20token-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white

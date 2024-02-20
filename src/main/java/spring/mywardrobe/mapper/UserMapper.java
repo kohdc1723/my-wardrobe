@@ -1,7 +1,7 @@
 package spring.mywardrobe.mapper;
 
 import spring.mywardrobe.domain.User;
-import spring.mywardrobe.dto.user.UserCreateRequest;
+import spring.mywardrobe.dto.auth.RegisterRequest;
 import spring.mywardrobe.dto.user.UserResponse;
 
 public class UserMapper {
@@ -14,12 +14,12 @@ public class UserMapper {
         );
     }
 
-    public static User mapToUser(UserCreateRequest userCreateRequest) {
+    public static User mapToUser(RegisterRequest registerRequest) {
         return new User(
-                userCreateRequest.getEmail(),
-                userCreateRequest.getPassword(),
-                userCreateRequest.getFirstname(),
-                userCreateRequest.getLastname()
+                registerRequest.getEmail(),
+                registerRequest.getPassword(),
+                registerRequest.getFirstname(),
+                registerRequest.getLastname()
         );
     }
 }

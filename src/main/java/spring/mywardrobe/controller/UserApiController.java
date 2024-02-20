@@ -1,11 +1,9 @@
 package spring.mywardrobe.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import spring.mywardrobe.dto.user.UserCreateRequest;
 import spring.mywardrobe.dto.user.UserResponse;
 import spring.mywardrobe.dto.user.UserUpdateRequest;
 import spring.mywardrobe.service.UserService;

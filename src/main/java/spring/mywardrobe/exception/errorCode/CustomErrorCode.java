@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum CustomErrorCode implements ErrorCode {
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User not found"),
     EMAIL_DUPLICATE(HttpStatus.CONFLICT, "Email already in use"),
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not found"),
     REQUEST_PARAMETER_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "Request parameter type mismatch"),

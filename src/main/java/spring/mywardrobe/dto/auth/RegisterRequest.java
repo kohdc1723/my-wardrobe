@@ -1,4 +1,4 @@
-package spring.mywardrobe.dto.user;
+package spring.mywardrobe.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserCreateRequest {
+public class RegisterRequest {
     @NotBlank(message = "email is required")
     @Email(message = "email is invalid")
     private String email;

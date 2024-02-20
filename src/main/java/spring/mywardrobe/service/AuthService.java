@@ -1,12 +1,17 @@
 package spring.mywardrobe.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.mywardrobe.domain.Collection;
 import spring.mywardrobe.domain.User;
-import spring.mywardrobe.dto.user.UserCreateRequest;
+import spring.mywardrobe.dto.auth.JwtResponse;
+import spring.mywardrobe.dto.auth.LoginRequest;
+import spring.mywardrobe.dto.auth.RegisterRequest;
 import spring.mywardrobe.dto.user.UserResponse;
 import spring.mywardrobe.exception.RestApiException;
 import spring.mywardrobe.exception.errorCode.CustomErrorCode;
@@ -23,22 +28,40 @@ import java.util.List;
 public class AuthService {
     private final UserRepository userRepository;
     private final CollectionRepository collectionRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    public UserResponse register(UserCreateRequest userCreateRequest) {
-        String email = userCreateRequest.getEmail();
-        String rawPassword = userCreateRequest.getPassword();
-
+    public UserResponse register(RegisterRequest registerRequest) {
+        String email = registerRequest.getEmail();
         validateEmailDuplicate(email);
 
-        userCreateRequest.setPassword(bCryptPasswordEncoder.encode(rawPassword));
+        String rawPassword = registerRequest.getPassword();
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        registerRequest.setPassword(encodedPassword);
 
-        User user = UserMapper.mapToUser(userCreateRequest);
-
+        User user = UserMapper.mapToUser(registerRequest);
         Long userId = userRepository.save(user);
+
         initDefaultCollections(userId);
 
         return UserMapper.mapToUserResponse(user);
+    }
+
+    public JwtResponse login(LoginRequest loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(email, password);
+
+        authenticationManager.authenticate(authToken);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
+
+        String token = jwtService.generateToken(user);
+
+        return new JwtResponse(token);
     }
 
     private void validateEmailDuplicate(String email) throws RestApiException {

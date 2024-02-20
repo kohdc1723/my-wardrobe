@@ -1,27 +1,22 @@
 package spring.mywardrobe.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import spring.mywardrobe.domain.Collection;
 import spring.mywardrobe.domain.User;
-import spring.mywardrobe.dto.user.UserCreateRequest;
 import spring.mywardrobe.dto.user.UserResponse;
 import spring.mywardrobe.dto.user.UserUpdateRequest;
 import spring.mywardrobe.exception.RestApiException;
 import spring.mywardrobe.exception.errorCode.CustomErrorCode;
 import spring.mywardrobe.mapper.UserMapper;
-import spring.mywardrobe.repository.CollectionRepository;
 import spring.mywardrobe.repository.UserRepository;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
@@ -48,5 +43,12 @@ public class UserService {
         User user = userRepository.findById(userId);
 
         user.delete();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String username) throws RestApiException {
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
     }
 }
