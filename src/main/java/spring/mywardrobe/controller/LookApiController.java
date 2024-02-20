@@ -40,8 +40,8 @@ public class LookApiController {
         return new ResponseEntity<>(lookResponse, HttpStatus.OK);
     }
 
-    // PUT - /api/looks/{id}
-    @PutMapping("{id}")
+    // PATCH - /api/looks/{id}
+    @PatchMapping("{id}")
     public ResponseEntity<LookResponse> updateLook(
             @PathVariable("id") Long id,
             @RequestBody @Valid LookUpdateRequest lookUpdateRequest

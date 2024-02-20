@@ -39,8 +39,8 @@ public class CollectionApiController {
         return new ResponseEntity<>(collectionResponse, HttpStatus.OK);
     }
 
-    // PUT - /api/collections/{id}
-    @PutMapping("{id}")
+    // PATCH - /api/collections/{id}
+    @PatchMapping("{id}")
     public ResponseEntity<CollectionResponse> updateCollection(
             @PathVariable("id") Long id,
             @RequestBody @Valid CollectionUpdateRequest collectionUpdateRequest

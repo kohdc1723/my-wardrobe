@@ -58,7 +58,7 @@
 
 `GET`: `/api/users/{id}/keywords`
 
-`PUT`: `/api/users/{id}`
+`PATCH`: `/api/users/{id}`
 
 `DELETE`: `/api/users/{id}`
 
@@ -68,7 +68,7 @@
 
 `GET`: `/api/clothes/{id}`
 
-`PUT`: `/api/clothes`
+`PATCH`: `/api/clothes/{id}`
 
 `DELETE`: `/api/clothes/{id}`
 
@@ -78,7 +78,7 @@
 
 `GET`: `/api/collections/{id}`
 
-`PUT`: `/api/collections`
+`PATCH`: `/api/collections/{id}`
 
 `DELETE`: `/api/collections/{id}`
 
@@ -88,7 +88,7 @@
 
 `GET`: `/api/looks/{id}`
 
-`PUT`: `/api/looks`
+`PATCH`: `/api/looks/{id}`
 
 `DELETE`: `/api/looks/{id}`
 
@@ -98,7 +98,7 @@
 
 `GET`: `/api/keywords/{id}`
 
-`PUT`: `/api/keywords`
+`PATCH`: `/api/keywords/{id}`
 
 `DELETE`: `/api/keywords/{id}`
 

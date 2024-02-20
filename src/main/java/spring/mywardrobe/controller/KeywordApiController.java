@@ -39,8 +39,8 @@ public class KeywordApiController {
         return new ResponseEntity<>(keywordResponse, HttpStatus.OK);
     }
 
-    // PUT - /api/keywords/{id}
-    @PutMapping("{id}")
+    // PATCH - /api/keywords/{id}
+    @PatchMapping("{id}")
     public ResponseEntity<KeywordResponse> updateKeyword(
             @PathVariable("id") Long id,
             @RequestBody @Valid UpdateKeywordRequest updateKeywordRequest

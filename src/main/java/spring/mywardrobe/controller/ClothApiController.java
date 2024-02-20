@@ -42,8 +42,8 @@ public class ClothApiController {
         return new ResponseEntity<>(clothResponse, HttpStatus.OK);
     }
 
-    // PUT - /api/clothes/{id}
-    @PutMapping("{id}")
+    // PATCH - /api/clothes/{id}
+    @PatchMapping("{id}")
     public ResponseEntity<ClothResponse> updateCloth(
             @PathVariable("id") Long id,
             @Valid @RequestBody ClothUpdateRequest clothUpdateRequest
