@@ -39,10 +39,14 @@ public class SecurityConfig {
                     "/api/users/{id}",
                     "/api/users/{id}/**"
             ).access(((authentication, context) -> {
-                String id = context.getVariables().get("id");
-                boolean isMatch = webSecurity.isUserIdMatch(authentication, id);
+                String userId = context.getVariables().get("id");
+                boolean isMatch = webSecurity.isUserIdMatch(authentication, userId);
 
                 return new AuthorizationDecision(isMatch);
+            }));
+            // clothes
+            req.requestMatchers("/api/clothes/{id}").access(((authentication, context) -> {
+                return new AuthorizationDecision(true);
             }));
             // any
             req.anyRequest().authenticated();

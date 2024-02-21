@@ -7,6 +7,7 @@ import spring.mywardrobe.domain.Cloth;
 import spring.mywardrobe.domain.Keyword;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,8 +20,10 @@ public class KeywordRepository {
         return keyword.getId();
     }
 
-    public Keyword findById(Long id) {
-        return em.find(Keyword.class, id);
+    public Optional<Keyword> findById(Long id) {
+        Keyword keyword = em.find(Keyword.class, id);
+
+        return Optional.ofNullable(keyword);
     }
 
     public List<Keyword> findAllByIds(List<Long> keywordIds) {

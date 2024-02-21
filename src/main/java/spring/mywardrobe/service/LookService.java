@@ -16,6 +16,7 @@ import spring.mywardrobe.repository.LookRepository;
 import spring.mywardrobe.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +34,15 @@ public class LookService {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
-        List<Cloth> clothList = clothIds.stream().map(clothRepository::findById).toList();
-        List<Keyword> keywordList = keywordIds.stream().map(keywordRepository::findById).toList();
+
+        List<Cloth> clothList = clothIds.stream()
+                .map(clothId -> clothRepository.findById(clothId)
+                        .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND)))
+                .toList();
+        List<Keyword> keywordList = keywordIds.stream()
+                .map(keywordId -> keywordRepository.findById(keywordId)
+                        .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND)))
+                .toList();
 
         Look look = new Look(lookCreateRequest.getName(), user, clothList, keywordList);
 
@@ -44,7 +52,8 @@ public class LookService {
     }
 
     public LookResponse getLookById(Long id) {
-        Look look = lookRepository.findById(id);
+        Look look = lookRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
 
         return LookMapper.mapToLookResponse(look);
     }
@@ -65,7 +74,8 @@ public class LookService {
         List<Cloth> clothList = clothRepository.findAllByIds(lookUpdateRequest.getClothIds());
         List<Keyword> keywordList = keywordRepository.findAllByIds(lookUpdateRequest.getKeywordIds());
 
-        Look look = lookRepository.findById(id);
+        Look look = lookRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
         look.updateLook(name, clothList, keywordList);
 
         return LookMapper.mapToLookResponse(look);

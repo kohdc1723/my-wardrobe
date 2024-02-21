@@ -3,6 +3,7 @@ package spring.mywardrobe.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -10,6 +11,7 @@ import spring.mywardrobe.domain.*;
 import spring.mywardrobe.domain.ClothSearchOptions;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -20,14 +22,16 @@ public class ClothRepository {
         em.persist(cloth);
     }
 
-    public Cloth findById(Long clothId) {
-        return em.createQuery(
+    public Optional<Cloth> findById(Long clothId) {
+        Cloth cloth = em.createQuery(
                 "select c from Cloth c" +
                         " join fetch c.seasons" +
                         " join fetch c.collection" +
-                " where c.id = :clothId", Cloth.class)
+                        " where c.id = :clothId", Cloth.class)
                 .setParameter("clothId", clothId)
                 .getSingleResult();
+
+        return Optional.ofNullable(cloth);
     }
 
     public List<Cloth> findAllByIds(List<Long> clothIds) {

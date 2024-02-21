@@ -37,7 +37,8 @@ public class KeywordService {
 
     @Transactional(readOnly = true)
     public KeywordResponse getKeywordById(Long id) {
-        Keyword keyword = keywordRepository.findById(id);
+        Keyword keyword = keywordRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
 
         return KeywordMapper.mapToKeywordResponse(keyword);
     }
@@ -52,7 +53,8 @@ public class KeywordService {
     }
 
     public KeywordResponse updateKeyword(Long id, String name) {
-        Keyword keyword = keywordRepository.findById(id);
+        Keyword keyword = keywordRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
 
         keyword.updateKeyword(name);
 

@@ -37,7 +37,8 @@ public class CollectionService {
     }
 
     public CollectionResponse getCollectionById(Long id) {
-        Collection collection = collectionRepository.findById(id);
+        Collection collection = collectionRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
 
         return CollectionMapper.mapToCollectionResponse(collection);
     }
@@ -53,7 +54,8 @@ public class CollectionService {
     public CollectionResponse updateCollection(Long id, CollectionUpdateRequest collectionUpdateRequest) {
         String name = collectionUpdateRequest.getName();
 
-        Collection collection = collectionRepository.findById(id);
+        Collection collection = collectionRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
         collection.updateCollection(name);
 
         return CollectionMapper.mapToCollectionResponse(collection);

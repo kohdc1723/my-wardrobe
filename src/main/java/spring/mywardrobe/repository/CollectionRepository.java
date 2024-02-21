@@ -1,6 +1,7 @@
 package spring.mywardrobe.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import spring.mywardrobe.domain.Collection;
@@ -21,8 +22,10 @@ public class CollectionRepository {
         collectionList.forEach(em::persist);
     }
 
-    public Collection findById(Long id) {
-        return em.find(Collection.class, id);
+    public Optional<Collection> findById(Long id) {
+        Collection collection = em.find(Collection.class, id);
+
+        return Optional.ofNullable(collection);
     }
 
     public List<Collection> findByUser(Long userId) {

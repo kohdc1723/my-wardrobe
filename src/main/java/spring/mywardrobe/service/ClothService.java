@@ -31,7 +31,8 @@ public class ClothService {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RestApiException(CustomErrorCode.USER_NOT_FOUND));
-        Collection collection = collectionRepository.findById(collectionId);
+        Collection collection = collectionRepository.findById(collectionId)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
 
         Cloth cloth = new Cloth(
                 clothCreateRequest.getName(),
@@ -48,7 +49,8 @@ public class ClothService {
 
     @Transactional(readOnly = true)
     public ClothResponse getClothById(Long clothId) {
-        Cloth cloth = clothRepository.findById(clothId);
+        Cloth cloth = clothRepository.findById(clothId)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
 
         return ClothMapper.mapToClothResponse(cloth);
     }
@@ -71,16 +73,15 @@ public class ClothService {
     }
 
     public ClothResponse updateCloth(Long id, ClothUpdateRequest clothUpdateRequest) {
-        Cloth cloth = clothRepository.findById(id);
+        Cloth cloth = clothRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CustomErrorCode.RESOURCE_NOT_FOUND));
 
         String name = clothUpdateRequest.getName();
         String brand = clothUpdateRequest.getBrand();
         String imageUrl = clothUpdateRequest.getImageUrl();
         List<Season> seasons = clothUpdateRequest.getSeasons();
         Long collectionId = clothUpdateRequest.getCollectionId();
-
-        Collection collection = collectionId != null
-                ? collectionRepository.findById(collectionId) : null;
+        Collection collection = collectionRepository.findById(collectionId).orElse(null);
 
         cloth.updateCloth(name, brand, imageUrl, seasons, collection);
 

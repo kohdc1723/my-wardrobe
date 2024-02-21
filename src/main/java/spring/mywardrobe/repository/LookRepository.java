@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import spring.mywardrobe.domain.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,8 +22,10 @@ public class LookRepository {
         return look.getId();
     }
 
-    public Look findById(Long id) {
-        return em.find(Look.class, id);
+    public Optional<Look> findById(Long id) {
+        Look look = em.find(Look.class, id);
+
+        return Optional.ofNullable(look);
     }
 
     public List<Look> find(LookSearchOptions lookSearchOptions) {

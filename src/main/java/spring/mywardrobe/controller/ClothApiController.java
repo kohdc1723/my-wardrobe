@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import spring.mywardrobe.domain.Season;
 import spring.mywardrobe.dto.cloth.ClothCreateRequest;
@@ -55,6 +56,7 @@ public class ClothApiController {
 
     // DELETE - /api/clothes/{id}
     @DeleteMapping("{id}")
+    @PreAuthorize("authentication.principal.userId == #")
     public ResponseEntity<String> deleteCloth(
             @PathVariable("id") Long id
     ) {
