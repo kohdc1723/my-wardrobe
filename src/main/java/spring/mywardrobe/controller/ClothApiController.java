@@ -1,21 +1,15 @@
 package spring.mywardrobe.controller;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import spring.mywardrobe.domain.Season;
 import spring.mywardrobe.dto.cloth.ClothCreateRequest;
 import spring.mywardrobe.dto.cloth.ClothResponse;
 import spring.mywardrobe.dto.cloth.ClothUpdateRequest;
 import spring.mywardrobe.service.ClothService;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

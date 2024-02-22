@@ -1,5 +1,7 @@
 package spring.mywardrobe.config;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import spring.mywardrobe.filter.JwtAuthFilter;
 import spring.mywardrobe.service.UserService;
 
+import java.io.IOException;
+import java.util.stream.Collectors;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -31,26 +36,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
-        httpSecurity.authorizeHttpRequests(req -> {
-            // auth
-            req.requestMatchers("/api/auth/**").permitAll();
-            // users
-            req.requestMatchers(
-                    "/api/users/{id}",
-                    "/api/users/{id}/**"
-            ).access(((authentication, context) -> {
-                String userId = context.getVariables().get("id");
-                boolean isMatch = webSecurity.isUserIdMatch(authentication, userId);
-
-                return new AuthorizationDecision(isMatch);
-            }));
-            // clothes
-            req.requestMatchers("/api/clothes/{id}").access(((authentication, context) -> {
-                return new AuthorizationDecision(true);
-            }));
-            // any
-            req.anyRequest().authenticated();
-        });
+        httpSecurity.authorizeHttpRequests(req -> req
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/users/{id}", "/api/users/{id}/**").access(webSecurity::authorizeUser)
+                .requestMatchers("/api/clothes/{id}").access(webSecurity::authorizeClothOwner)
+                .requestMatchers("/api/looks/{id}").access(webSecurity::authorizeLookOwner)
+                .requestMatchers("/api/collections/{id}").access(webSecurity::authorizeCollectionOwner)
+                .requestMatchers("/api/keywords/{id}").access(webSecurity::authorizeKeywordOwner)
+                .anyRequest().authenticated()
+        );
 
         httpSecurity.userDetailsService(userService);
 
